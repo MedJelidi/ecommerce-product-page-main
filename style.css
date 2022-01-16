@@ -234,18 +234,25 @@ main {
 }
 
 .gallery {
-    display: flex;
     position: relative;
+    max-height: 300px;
+    overflow: hidden;
+}
+
+.images {
+    display: flex;
     transition: transform 500ms ease;
 }
 
-.gallery>img {
+.images>img {
     width: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .arrow {
     content: '';
-    position: fixed;
+    position: absolute;
     top: 0;
     bottom: 0;
     margin: auto 0;
@@ -269,4 +276,71 @@ main {
 .next-arrow {
     right: 15px;
     background-image: url('./images/icon-next.svg');
+}
+
+.info-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+h5 {
+    margin-top: 0;
+    margin-bottom: 13px;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    -webkit-transform: scale(1, 0.9);
+    /* Safari and Chrome */
+    -moz-transform: scale(1, 0.9);
+    /* Firefox */
+    -ms-transform: scale(1, 0.9);
+    /* IE 9+ */
+    -o-transform: scale(1, 0.9);
+    /* Opera */
+}
+
+h1 {
+    margin-top: 0;
+    margin-bottom: 13px;
+    font-size: 27px;
+}
+
+p {
+    margin-top: 0;
+    line-height: 25px;
+    font-size: 15.5px;
+    color: var(--dark-grayish-blue);
+}
+
+.price-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 13px;
+}
+
+.discount {
+    padding: 4px 8px;
+    height: min-content;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    background-color: var(--pale-orange);
+    font-weight: var(--bolder);
+    font-size: 16px;
+    color: var(--orange);
+    border-radius: 5px;
+    margin-left: 15px;
+    margin-right: auto;
+}
+
+.price-container>h1 {
+    margin: 0;
+}
+
+.old-price {
+    margin: 0;
+    color: var(--grayish-blue);
+    text-decoration: line-through;
+    font-weight: var(--bolder);
 }

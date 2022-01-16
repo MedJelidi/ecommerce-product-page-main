@@ -4,8 +4,8 @@ const menu = document.querySelector('.menu')
 const blackLayer = document.querySelector('.black-layer')
 const cartIcon = document.querySelector('.cart-icon')
 const cartContainer = document.querySelector('.cart-container')
-const gallery = document.querySelector('.gallery')
-const imagesNumber = gallery.querySelectorAll('img').length
+const images = document.querySelector('.images')
+const imagesNumber = images.querySelectorAll('img').length
 const prevArrow = document.querySelector('.prev-arrow')
 const nextArrow = document.querySelector('.next-arrow')
 
@@ -37,5 +37,5 @@ function slide(direction) {
     } else {
         activeIndex = activeIndex <= 0 ? imagesNumber - 1 : activeIndex - 1
     }
-    gallery.style.transform = `translateX(-${100 * activeIndex}%)`
+    images.style.transform = `translateX(-${100 * activeIndex}%)`
 }
