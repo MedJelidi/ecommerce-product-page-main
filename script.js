@@ -53,5 +53,6 @@ function addQuantity() {
 }
 
 function removeQuantity() {
-    quantityElem.innerText = `${quantity > 0 ? --quantity : 0}`
+    if (quantity <= 0) return
+    quantityElem.innerText = `${--quantity}`
 }
