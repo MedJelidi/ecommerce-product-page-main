@@ -4,10 +4,18 @@ const menu = document.querySelector('.menu')
 const blackLayer = document.querySelector('.black-layer')
 const cartIcon = document.querySelector('.cart-icon')
 const cartContainer = document.querySelector('.cart-container')
+const gallery = document.querySelector('.gallery')
+const imagesNumber = gallery.querySelectorAll('img').length
+const prevArrow = document.querySelector('.prev-arrow')
+const nextArrow = document.querySelector('.next-arrow')
+
+let activeIndex = 0
 
 menuOpen.addEventListener('click', openMenu)
 menuClose.addEventListener('click', closeMenu)
 cartIcon.addEventListener('click', toggleCart)
+nextArrow.addEventListener('click', () => slide('next'))
+prevArrow.addEventListener('click', () => slide('prev'))
 
 function openMenu() {
     menu.classList.add('show-menu')
@@ -21,4 +29,13 @@ function closeMenu() {
 
 function toggleCart() {
     cartContainer.classList.toggle('show-cart')
+}
+
+function slide(direction) {
+    if (direction === 'next') {
+        activeIndex = activeIndex >= imagesNumber - 1 ? 0 : activeIndex + 1
+    } else {
+        activeIndex = activeIndex <= 0 ? imagesNumber - 1 : activeIndex - 1
+    }
+    gallery.style.transform = `translateX(-${100 * activeIndex}%)`
 }

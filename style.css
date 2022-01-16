@@ -35,6 +35,7 @@ body {
     position: relative;
     height: inherit;
     font-family: var(--font-family-kumbh);
+    min-width: 375px;
 }
 
 header {
@@ -51,7 +52,7 @@ header {
     width: 65%;
     height: 100%;
     top: 0;
-    z-index: 2;
+    z-index: 3;
     background-color: var(--white);
     display: flex;
     flex-direction: column;
@@ -91,7 +92,7 @@ header {
     height: 100%;
     top: 0;
     background-color: var(--black-lightbox);
-    z-index: 1;
+    z-index: 2;
 }
 
 .side-header {
@@ -143,7 +144,7 @@ header {
     height: fit-content;
     background-color: var(--white);
     border-radius: 10px;
-    z-index: 1;
+    z-index: 2;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -229,21 +230,22 @@ main {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    position: relative;
 }
 
 .gallery {
     display: flex;
     position: relative;
+    transition: transform 500ms ease;
 }
 
 .gallery>img {
     width: 100%;
 }
 
-.gallery::before,
-.gallery::after {
+.arrow {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     margin: auto 0;
@@ -255,14 +257,16 @@ main {
     display: flex;
     width: 40px;
     height: 40px;
+    z-index: 1;
+    box-shadow: 0 0 5px 5px hsl(0, 0%, 0%, 10%);
 }
 
-.gallery::before {
+.prev-arrow {
     left: 15px;
     background-image: url('./images/icon-previous.svg');
 }
 
-.gallery::after {
+.next-arrow {
     right: 15px;
     background-image: url('./images/icon-next.svg');
 }
