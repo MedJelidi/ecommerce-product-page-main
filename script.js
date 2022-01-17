@@ -7,22 +7,48 @@ const cartIconImg = cartIcon.querySelector('img')
 const cartContainer = document.querySelector('.cart-container')
 const images = document.querySelector('.images')
 const imagesNumber = images.querySelectorAll('img').length
-const prevArrow = document.querySelector('.prev-arrow')
-const nextArrow = document.querySelector('.next-arrow')
+const thumbnailImages = document.querySelectorAll('main>.gallery>.thumbnail-images>div')
+const thumbnailImagesInLightbox = document.querySelectorAll('.lightbox>.container>.thumbnail-images>div')
+const imagesInLightbox = document.querySelector('.lightbox>.container>.gallery>.images')
+const prevArrow = document.querySelector('main>.gallery>.prev-arrow')
+const nextArrow = document.querySelector('main>.gallery>.next-arrow')
+const prevArrowInLightbox = document.querySelector('.lightbox>.container>.gallery>.prev-arrow')
+const nextArrowInLightbox = document.querySelector('.lightbox>.container>.gallery>.next-arrow')
 const minusIcon = document.querySelector('.icon-minus')
 const plusIcon = document.querySelector('.icon-plus')
 const quantityElem = document.querySelector('.quantity')
+const closeLightboxIcon = document.querySelector('.close-lightbox')
+const lightbox = document.querySelector('.lightbox')
+
+console.log(thumbnailImagesInLightbox)
 
 let activeIndex = 0
+let activeIndexInLightbox = 0
 let quantity = 0
+let currentThumb = 0
+let currentThumbInLightBox = 0
 
 menuOpen.addEventListener('click', openMenu)
 menuClose.addEventListener('click', closeMenu)
 cartIcon.addEventListener('click', toggleCart)
 nextArrow.addEventListener('click', () => slide('next'))
 prevArrow.addEventListener('click', () => slide('prev'))
+nextArrowInLightbox.addEventListener('click', () => slideInLightbox('next'))
+prevArrowInLightbox.addEventListener('click', () => slideInLightbox('prev'))
 minusIcon.addEventListener('click', removeQuantity)
 plusIcon.addEventListener('click', addQuantity)
+thumbnailImages.forEach((i, k) => i.addEventListener('click', () => clickThumbnail(i, k)))
+thumbnailImagesInLightbox.forEach((i, k) => i.addEventListener('click', () => clickThumbnailInLightBox(i, k)))
+images.addEventListener('click', openLightbox)
+closeLightboxIcon.addEventListener('click', closeLightbox)
+
+function openLightbox() {
+    if (window.innerWidth >= 1468) lightbox.style.display = 'flex'
+}
+
+function closeLightbox() {
+    lightbox.style.display = 'none'
+}
 
 function openMenu() {
     menu.classList.add('show-menu')
@@ -48,6 +74,16 @@ function slide(direction) {
     images.style.transform = `translateX(-${100 * activeIndex}%)`
 }
 
+function slideInLightbox(direction) {
+    if (direction === 'next') {
+        activeIndexInLightbox = activeIndexInLightbox >= imagesNumber - 1 ? 0 : activeIndexInLightbox + 1
+    } else {
+        activeIndexInLightbox = activeIndexInLightbox <= 0 ? imagesNumber - 1 : activeIndexInLightbox - 1
+    }
+    imagesInLightbox.style.transform = `translateX(-${100 * activeIndexInLightbox}%)`
+    clickThumbnailInLightBox(thumbnailImagesInLightbox[activeIndexInLightbox], activeIndexInLightbox)
+}
+
 function addQuantity() {
     quantityElem.innerText = `${++quantity}`
 }
@@ -55,4 +91,21 @@ function addQuantity() {
 function removeQuantity() {
     if (quantity <= 0) return
     quantityElem.innerText = `${--quantity}`
+}
+
+function clickThumbnail(img, k) {
+    images.style.transform = `translateX(-${k * 100}%)`
+    thumbnailImages[currentThumb].classList.remove('selected-image')
+    currentThumb = k
+    img.classList.add('selected-image')
+    thumbnailImagesInLightbox[currentThumb].classList.add('selected-image')
+    clickThumbnailInLightBox(thumbnailImagesInLightbox[k], k)
+}
+
+function clickThumbnailInLightBox(img, k) {
+    imagesInLightbox.style.transform = `translateX(-${k * 100}%)`
+    thumbnailImagesInLightbox[currentThumbInLightBox].classList.remove('selected-image')
+    currentThumbInLightBox = k
+    img.classList.add('selected-image')
+    activeIndexInLightbox = k
 }
