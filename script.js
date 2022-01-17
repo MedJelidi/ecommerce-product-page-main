@@ -22,7 +22,7 @@ const closeLightboxIcon = document.querySelector('.close-lightbox')
 const lightbox = document.querySelector('.lightbox')
 const addToCartBtn = document.querySelector('.add-to-cart')
 const badgeElem = document.querySelector('.cart-badge')
-const singleImage = document.querySelectorAll('main>.gallery>.images>img')[0]
+const singleImages = document.querySelectorAll('main>.gallery>.images>img')
 
 let activeIndex = 0
 let activeIndexInLightbox = 0
@@ -188,12 +188,10 @@ function updateBadge() {
     }
 }
 
-const observer = new ResizeObserver((entries) => {
-    if (entries[0].contentRect.width === 400) {
-        if (window.innerWidth < 1000) images.style.transform = `translateX(-${100 * activeIndex}%)`
-        else images.style.transform = `translateX(-${25 * activeIndex}%)`
-    } else if (entries[0].contentRect.width === 500) {
+window.addEventListener('resize', () => {
+    const w = window.innerWidth
+    if (w < 1468)
         images.style.transform = `translateX(-${100 * activeIndex}%)`
-    }
+    else
+        images.style.transform = `translateX(-${25 * activeIndex}%)`
 })
-observer.observe(singleImage)
