@@ -47,7 +47,12 @@ closeLightboxIcon.addEventListener('click', closeLightbox)
 addToCartBtn.addEventListener('click', updateCart)
 
 function openLightbox() {
-    if (window.innerWidth >= 1468) lightbox.classList.add('lightbox-on')
+    if (window.innerWidth >= 1468) {
+        lightbox.classList.add('lightbox-on')
+            // console.log(thumbnailImagesInLightbox[activeIndex])
+        console.log(thumbnailImagesInLightbox[activeIndex])
+        clickThumbnailInLightBox(thumbnailImagesInLightbox[activeIndex], activeIndex)
+    }
 }
 
 function closeLightbox() {
