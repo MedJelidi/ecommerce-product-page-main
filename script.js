@@ -2,9 +2,10 @@ const menuOpen = document.querySelector('.icon-menu')
 const menuClose = document.querySelector('.icon-close')
 const menu = document.querySelector('.menu')
 const blackLayer = document.querySelector('.black-layer')
-const cartIcon = document.querySelector('.cart-icon')
+const cartIcon = document.querySelector('.cart-icon-container')
 const cartIconImg = cartIcon.querySelector('img')
 const cartContainer = document.querySelector('.cart-container')
+const cartBody = document.querySelector('.cart-body')
 const images = document.querySelector('.images')
 const imagesNumber = images.querySelectorAll('img').length
 const thumbnailImages = document.querySelectorAll('main>.gallery>.thumbnail-images>div')
@@ -19,14 +20,16 @@ const plusIcon = document.querySelector('.icon-plus')
 const quantityElem = document.querySelector('.quantity')
 const closeLightboxIcon = document.querySelector('.close-lightbox')
 const lightbox = document.querySelector('.lightbox')
-
-console.log(thumbnailImagesInLightbox)
+const addToCartBtn = document.querySelector('.add-to-cart')
+const badgeElem = document.querySelector('.cart-badge')
 
 let activeIndex = 0
 let activeIndexInLightbox = 0
 let quantity = 0
 let currentThumb = 0
 let currentThumbInLightBox = 0
+let cartItems = []
+let itemID = 0
 
 menuOpen.addEventListener('click', openMenu)
 menuClose.addEventListener('click', closeMenu)
@@ -41,13 +44,14 @@ thumbnailImages.forEach((i, k) => i.addEventListener('click', () => clickThumbna
 thumbnailImagesInLightbox.forEach((i, k) => i.addEventListener('click', () => clickThumbnailInLightBox(i, k)))
 images.addEventListener('click', openLightbox)
 closeLightboxIcon.addEventListener('click', closeLightbox)
+addToCartBtn.addEventListener('click', updateCart)
 
 function openLightbox() {
-    if (window.innerWidth >= 1468) lightbox.style.display = 'flex'
+    if (window.innerWidth >= 1468) lightbox.classList.add('lightbox-on')
 }
 
 function closeLightbox() {
-    lightbox.style.display = 'none'
+    lightbox.classList.remove('lightbox-on')
 }
 
 function openMenu() {
@@ -72,6 +76,7 @@ function slide(direction) {
         activeIndex = activeIndex <= 0 ? imagesNumber - 1 : activeIndex - 1
     }
     images.style.transform = `translateX(-${100 * activeIndex}%)`
+    clickThumbnail(thumbnailImages[activeIndex], activeIndex)
 }
 
 function slideInLightbox(direction) {
@@ -100,6 +105,7 @@ function clickThumbnail(img, k) {
     img.classList.add('selected-image')
     thumbnailImagesInLightbox[currentThumb].classList.add('selected-image')
     clickThumbnailInLightBox(thumbnailImagesInLightbox[k], k)
+    activeIndex = k
 }
 
 function clickThumbnailInLightBox(img, k) {
@@ -108,4 +114,66 @@ function clickThumbnailInLightBox(img, k) {
     currentThumbInLightBox = k
     img.classList.add('selected-image')
     activeIndexInLightbox = k
+}
+
+function updateCart() {
+    if (quantity === 0) return
+    cartBody.innerHTML = ''
+    const itemToAddIdx = cartItems.findIndex(it => it.id === itemID)
+    if (itemToAddIdx > -1) {
+        cartItems[itemToAddIdx].quantity += quantity
+    } else {
+        cartItems.push({ id: itemID, name: 'Autumn Limited Edition Sneakers', price: 125, quantity, itemImg: { src: './images/image-product-1-thumbnail.jpg', alt: 'image-product-1-thumbnail' } })
+    }
+    cartItems.forEach(item => {
+        const deleteIcon = document.createElement('img')
+        deleteIcon.src = './images/icon-delete.svg'
+        deleteIcon.alt = 'icon-delete'
+        deleteIcon.classList.add('cart-item-delete')
+        deleteIcon.addEventListener('click', () => {
+            cartItem.remove()
+            const itemToDeleteIdx = cartItems.findIndex(it => it.id === item.id)
+            if (itemToDeleteIdx > -1) cartItems.splice(itemToDeleteIdx, 1)
+            if (cartItems.length <= 0) cartBody.innerHTML = 'Your cart is empty.'
+            updateBadge()
+        })
+        const name = document.createElement('h4')
+        name.innerText = item.name
+        const total = document.createElement('span')
+        total.classList.add('total')
+        total.innerText = `$${item.price * item.quantity}`
+        const price = document.createElement('h4')
+        price.innerText = `$${item.price} x ${item.quantity}`
+        price.append(document.createTextNode(' '))
+        price.append(total)
+        const itemMetadata = document.createElement('div')
+        itemMetadata.classList.add('cart-item-metadata')
+        itemMetadata.append(name)
+        itemMetadata.append(price)
+        const itemImg = document.createElement('img')
+        itemImg.src = item.itemImg.src
+        itemImg.alt = item.itemImg.alt
+        itemImg.classList.add('cart-item-picture')
+        const cartItem = document.createElement('div')
+        cartItem.classList.add('cart-item')
+        cartItem.append(itemImg)
+        cartItem.append(itemMetadata)
+        cartItem.append(deleteIcon)
+        cartBody.append(cartItem)
+    })
+    updateBadge()
+    const checkoutBtn = document.createElement('button')
+    checkoutBtn.classList.add(...['big-btn', 'checkout-btn'])
+    checkoutBtn.innerText = 'Checkout'
+    cartBody.append(checkoutBtn)
+}
+
+function updateBadge() {
+    let totalQuantity = 0
+    cartItems.forEach(item => totalQuantity += item.quantity)
+    if (totalQuantity === 0) badgeElem.style.display = 'none'
+    else {
+        badgeElem.innerText = totalQuantity
+        badgeElem.style.display = 'flex'
+    }
 }

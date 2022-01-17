@@ -113,7 +113,7 @@ header {
     width: 22px;
 }
 
-.cart-icon {
+.cart-icon-container {
     display: flex;
     align-items: center;
     position: relative;
@@ -178,6 +178,7 @@ header {
     font-weight: var(--bolder);
     color: var(--dark-grayish-blue);
     gap: 25px;
+    padding: 25px 0;
 }
 
 .cart-item {
@@ -215,6 +216,7 @@ h4 {
 
 .cart-item-delete {
     width: 14px;
+    cursor: pointer;
 }
 
 .big-btn {
@@ -229,6 +231,7 @@ h4 {
     justify-content: center;
     align-items: center;
     font-family: var(--font-family-kumbh);
+    cursor: pointer;
 }
 
 .checkout-btn {
@@ -391,6 +394,25 @@ p {
     display: none;
 }
 
+.counter-checkout-container>.big-btn:hover,
+.icon-minus:hover,
+.icon-plus:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.cart-icon-container,
+.avatar,
+li,
+.logo {
+    cursor: pointer;
+}
+
+.avatar:hover {
+    outline: 2px var(--orange) solid;
+    border-radius: 50%;
+}
+
 .lightbox {
     display: none;
 }
@@ -445,16 +467,6 @@ p {
         width: 50px;
         margin-left: 25px;
     }
-    .avatar:hover {
-        outline: 2px var(--orange) solid;
-        border-radius: 50%;
-    }
-    .cart-icon,
-    .avatar,
-    li,
-    .logo {
-        cursor: pointer;
-    }
     .cart-container {
         top: 100px;
         width: 400px;
@@ -489,9 +501,6 @@ p {
     .price-container>h1 {
         font-size: 27px;
     }
-    .discount {
-        margin-right: 103px;
-    }
     .old-price {
         margin-top: 5px;
     }
@@ -507,12 +516,6 @@ p {
     .counter-checkout-container>.big-btn {
         width: 260px;
         height: fit-content;
-    }
-    .counter-checkout-container>.big-btn:hover,
-    .icon-minus:hover,
-    .icon-plus:hover {
-        opacity: 0.5;
-        cursor: pointer;
     }
     p {
         margin-bottom: auto;
@@ -593,6 +596,9 @@ p {
         width: auto;
         max-width: auto;
     }
+    .discount {
+        margin-right: 103px;
+    }
     .side-header {
         gap: 15px;
     }
@@ -612,7 +618,6 @@ p {
         position: absolute;
         width: 100%;
         height: 100%;
-        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -621,6 +626,9 @@ p {
         left: 0;
         z-index: 4;
         overflow: hidden;
+    }
+    .lightbox-on {
+        display: flex;
     }
     .lightbox>.container {
         width: 600px;
