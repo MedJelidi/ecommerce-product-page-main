@@ -258,7 +258,7 @@ main {
 }
 
 .images>img {
-    width: 100%;
+    width: 400px;
     object-fit: cover;
     object-position: center;
 }
@@ -486,6 +486,9 @@ li,
         border-radius: 15px;
         margin-bottom: 50px;
     }
+    .images>img {
+        width: 500px;
+    }
     .info-container {
         padding: 20px 0;
         padding-bottom: 0;
@@ -677,5 +680,11 @@ li,
     .lightbox>.container>.thumbnail-images>div {
         width: 100px;
         height: 100px;
+    }
+    main>.gallery>.images>img {
+        width: 400px;
+    }
+    .lightbox>.container>.gallery>.images>img {
+        width: 600px;
     }
 }

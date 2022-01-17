@@ -22,6 +22,7 @@ const closeLightboxIcon = document.querySelector('.close-lightbox')
 const lightbox = document.querySelector('.lightbox')
 const addToCartBtn = document.querySelector('.add-to-cart')
 const badgeElem = document.querySelector('.cart-badge')
+const singleImage = document.querySelectorAll('main>.gallery>.images>img')[0]
 
 let activeIndex = 0
 let activeIndexInLightbox = 0
@@ -75,22 +76,24 @@ function toggleCart() {
 }
 
 function slide(direction) {
+    const checkpoint = window.innerWidth < 1468 ? 100 : 25
     if (direction === 'next') {
         activeIndex = activeIndex >= imagesNumber - 1 ? 0 : activeIndex + 1
     } else {
         activeIndex = activeIndex <= 0 ? imagesNumber - 1 : activeIndex - 1
     }
-    images.style.transform = `translateX(-${100 * activeIndex}%)`
+    images.style.transform = `translateX(-${checkpoint * activeIndex}%)`
     clickThumbnail(thumbnailImages[activeIndex], activeIndex)
 }
 
 function slideInLightbox(direction) {
+    const checkpoint = window.innerWidth < 1468 ? 100 : 25
     if (direction === 'next') {
         activeIndexInLightbox = activeIndexInLightbox >= imagesNumber - 1 ? 0 : activeIndexInLightbox + 1
     } else {
         activeIndexInLightbox = activeIndexInLightbox <= 0 ? imagesNumber - 1 : activeIndexInLightbox - 1
     }
-    imagesInLightbox.style.transform = `translateX(-${100 * activeIndexInLightbox}%)`
+    imagesInLightbox.style.transform = `translateX(-${checkpoint * activeIndexInLightbox}%)`
     clickThumbnailInLightBox(thumbnailImagesInLightbox[activeIndexInLightbox], activeIndexInLightbox)
 }
 
@@ -104,7 +107,8 @@ function removeQuantity() {
 }
 
 function clickThumbnail(img, k) {
-    images.style.transform = `translateX(-${k * 100}%)`
+    const checkpoint = window.innerWidth < 1468 ? 100 : 25
+    images.style.transform = `translateX(-${k * checkpoint}%)`
     thumbnailImages[currentThumb].classList.remove('selected-image')
     currentThumb = k
     img.classList.add('selected-image')
@@ -114,7 +118,8 @@ function clickThumbnail(img, k) {
 }
 
 function clickThumbnailInLightBox(img, k) {
-    imagesInLightbox.style.transform = `translateX(-${k * 100}%)`
+    const checkpoint = window.innerWidth < 1468 ? 100 : 25
+    imagesInLightbox.style.transform = `translateX(-${k * checkpoint}%)`
     thumbnailImagesInLightbox[currentThumbInLightBox].classList.remove('selected-image')
     currentThumbInLightBox = k
     img.classList.add('selected-image')
@@ -182,3 +187,13 @@ function updateBadge() {
         badgeElem.style.display = 'flex'
     }
 }
+
+const observer = new ResizeObserver((entries) => {
+    if (entries[0].contentRect.width === 400) {
+        if (window.innerWidth < 1000) images.style.transform = `translateX(-${100 * activeIndex}%)`
+        else images.style.transform = `translateX(-${25 * activeIndex}%)`
+    } else if (entries[0].contentRect.width === 500) {
+        images.style.transform = `translateX(-${100 * activeIndex}%)`
+    }
+})
+observer.observe(singleImage)
