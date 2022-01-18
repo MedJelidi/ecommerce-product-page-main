@@ -20,10 +20,6 @@
     --bolder: 700;
 }
 
-html {
-    height: 100%;
-}
-
 *,
 *::before,
 *::after {
@@ -33,7 +29,7 @@ html {
 body {
     margin: 0;
     position: relative;
-    height: inherit;
+    min-height: 100vh;
     font-family: var(--font-family-kumbh);
     min-width: 375px;
 }
@@ -418,6 +414,9 @@ li,
 }
 
 @media screen and (min-width: 1000px) {
+    .menu-on {
+        display: none;
+    }
     .menu {
         position: initial;
         width: auto;
